@@ -42,12 +42,21 @@
                     <span>Dashboard</span></a>
             </li>
 
-            <!-- Nav Item - Tables
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li> -->
+            <!-- Nav Item - Students -->
+            <li class="nav-item {{ request()->routeIs('students.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('students.index') }}">
+                    <i class="fas fa-fw fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Subjects -->
+            <li class="nav-item {{ request()->routeIs('subjects.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('subjects.index') }}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Subjects</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -83,7 +92,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-4 d-none d-lg-inline text-gray-600 big">{{ Auth::user()->name }}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

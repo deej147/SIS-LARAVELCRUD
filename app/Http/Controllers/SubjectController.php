@@ -12,7 +12,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        $subjects = Subject::all();
+        return view('admin.subjects.subjectsIndex', compact('subjects'));
     }
 
     /**
@@ -20,7 +21,7 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.subjects.createForm');
     }
 
     /**
@@ -28,7 +29,17 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'code' => 'required|string|max:255|unique:subjects',
+            'name' => 'required|string|max:255',
+            'units' => 'required|integer|min:1|max:6',
+            'description' => 'nullable|string',
+        ]);
+
+        Subject::create($validated);
+
+        return redirect()->route('subjects.index')
+            ->with('success', 'Subject created successfully.');
     }
 
     /**
@@ -44,7 +55,7 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
+        return view('admin.subjects.editForm', compact('subject'));
     }
 
     /**
@@ -52,7 +63,17 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $validated = $request->validate([
+            'code' => 'required|string|max:255|unique:subjects,code,' . $subject->id,
+            'name' => 'required|string|max:255',
+            'units' => 'required|integer|min:1|max:6',
+            'description' => 'nullable|string',
+        ]);
+
+        $subject->update($validated);
+
+        return redirect()->route('subjects.index')
+            ->with('success', 'Subject updated successfully.');
     }
 
     /**
@@ -60,6 +81,8 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        $subject->delete();
+        return redirect()->route('subjects.index')
+            ->with('success', 'Subject deleted successfully.');
     }
 }
