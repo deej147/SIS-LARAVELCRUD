@@ -37,6 +37,7 @@ Route::resource('subjects', SubjectController::class);
 // Enrollment routes
 Route::get('/enroll/{student}', [EnrollmentController::class, 'create'])->name('enroll.create');
 Route::post('/enroll/{student}', [EnrollmentController::class, 'store'])->name('enroll.store');
+Route::delete('/enroll/{student}/{subject}', [EnrollmentController::class, 'remove'])->name('enroll.remove');
 
 // Grade routes
 Route::get('/grades/{student}', [GradeController::class, 'edit'])->name('grades.edit');
