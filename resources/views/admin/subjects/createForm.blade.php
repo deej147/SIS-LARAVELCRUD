@@ -9,6 +9,15 @@
         </a>
     </div>
 
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
     <!-- Create Subject Form -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -19,27 +28,31 @@
                 @csrf
 
                 <div class="form-group">
-                    <label for="code">Subject Code</label>
+                    <label for="code">Subject Code <span class="text-danger">*</span></label>
                     <input type="text" class="form-control @error('code') is-invalid @enderror" 
-                           id="code" name="code" value="{{ old('code') }}" required>
+                           id="code" name="code" value="{{ old('code') }}" required
+                           placeholder="Enter subject code (e.g., MATH101)">
                     @error('code')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    <small class="form-text text-muted">Only letters, numbers, and hyphens are allowed.</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="name">Subject Name</label>
+                    <label for="name">Subject Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                           id="name" name="name" value="{{ old('name') }}" required>
+                           id="name" name="name" value="{{ old('name') }}" required
+                           >
                     @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="units">Units</label>
+                    <label for="units">Units <span class="text-danger">*</span></label>
                     <input type="number" class="form-control @error('units') is-invalid @enderror" 
-                           id="units" name="units" value="{{ old('units') }}" required min="1" max="6">
+                           id="units" name="units" value="{{ old('units') }}" required
+                           min="1" max="6" >
                     @error('units')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -48,14 +61,23 @@
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea class="form-control @error('description') is-invalid @enderror" 
-                              id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                              id="description" name="description" rows="3"
+                              placeholder="Enter subject description (optional)">{{ old('description') }}</textarea>
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save Subject</button>
-                <a href="{{ route('subjects.index') }}" class="btn btn-secondary">Cancel</a>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save fa-sm text-white-50 mr-1"></i>
+                        Save Subject
+                    </button>
+                    <a href="{{ route('subjects.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-times fa-sm text-white-50 mr-1"></i>
+                        Cancel
+                    </a>
+                </div>
             </form>
         </div>
     </div>

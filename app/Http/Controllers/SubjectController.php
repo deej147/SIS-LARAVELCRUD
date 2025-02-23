@@ -30,16 +30,30 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'code' => 'required|string|max:255|unique:subjects',
+            'code' => 'required|string|max:255|unique:subjects|regex:/^[A-Za-z0-9\-]+$/',
             'name' => 'required|string|max:255',
             'units' => 'required|integer|min:1|max:6',
             'description' => 'nullable|string',
+        ], [
+            'code.required' => 'The subject code field is required.',
+            'code.unique' => 'This subject code is already taken.',
+            'code.regex' => 'The subject code may only contain letters, numbers, and hyphens.',
+            'name.required' => 'The subject name field is required.',
+            'units.required' => 'The units field is required.',
+            'units.integer' => 'Units must be a whole number.',
+            'units.min' => 'Units must be at least 1.',
+            'units.max' => 'Units cannot exceed 6.',
         ]);
 
-        Subject::create($validated);
-
-        return redirect()->route('subjects.index')
-            ->with('success', 'Subject created successfully.');
+        try {
+            Subject::create($validated);
+            return redirect()->route('subjects.index')
+                ->with('success', 'Subject created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to create subject. Please try again.');
+        }
     }
 
     /**
