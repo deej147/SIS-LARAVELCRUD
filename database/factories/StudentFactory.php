@@ -2,24 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Student;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Student>
- */
 class StudentFactory extends Factory
 {
-    protected $model = Student::class;
-
-    public function definition()
+    public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'age' => $this->faker->numberBetween(16, 20),
-            'address' => $this->faker->address(),
-            'grade_level' => $this->faker->randomElement(['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']),
+            'user_id' => User::factory(),
+            'age' => fake()->numberBetween(16, 25),
+            'address' => fake()->address(),
+            'year_level' => fake()->numberBetween(1, 4),
         ];
     }
 }

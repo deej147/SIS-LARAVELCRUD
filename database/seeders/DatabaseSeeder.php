@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,5 +17,10 @@ class DatabaseSeeder extends Seeder
         DB::table('users')
             ->where('email', 'test@gmail.com')
             ->update(['is_admin' => false]);
+
+        // Run the student seeder
+        $this->call([
+            StudentSeeder::class,
+        ]);
     }
 }

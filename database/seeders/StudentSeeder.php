@@ -7,8 +7,10 @@ use App\Models\Student;
 
 class StudentSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        Student::factory(50)->create(); // Create 50 students
+        Student::factory()
+            ->count(50)
+            ->create();
     }
 }
