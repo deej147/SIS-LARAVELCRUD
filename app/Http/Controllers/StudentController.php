@@ -14,8 +14,8 @@ class StudentController extends Controller
             })
             ->with('user')
             ->latest()
-            ->paginate(10);
-            
+            ->get(); // Remove paginate(10) and use get() instead
+        
         return view('admin.students.studentsIndex', compact('students'));
     }
 

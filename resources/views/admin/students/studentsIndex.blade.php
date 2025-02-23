@@ -85,9 +85,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-4">
-                {{ $students->links() }}
-            </div>
         </div>
     </div>
 @endsection
@@ -100,7 +97,20 @@
     <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable();
+            $('#dataTable').DataTable({
+                "pageLength": 10,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "order": [[0, "asc"]], // Sort by first column (Name) by default
+                "language": {
+                    "search": "Search:",
+                    "lengthMenu": "Show _MENU_ entries",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "infoEmpty": "Showing 0 to 0 of 0 entries",
+                    "infoFiltered": "(filtered from _MAX_ total entries)",
+                    "emptyTable": "No data available in table",
+                    "zeroRecords": "No matching records found"
+                }
+            });
             
             // Initialize tooltips
             $('[data-toggle="tooltip"]').tooltip();
