@@ -23,7 +23,20 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => [
+                'required', 
+                'string', 
+                'email', 
+                'max:255', 
+                'unique:users',
+                function ($attribute, $value, $fail) {
+                    $allowedDomains = ['student.buksu.edu.ph', 'buksu.edu.ph'];
+                    $domain = substr(strrchr($value, "@"), 1);
+                    if (!in_array($domain, $allowedDomains)) {
+                        $fail('The email must be a valid BukSU email address (@student.buksu.edu.ph or @buksu.edu.ph).');
+                    }
+                },
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'age' => ['required', 'integer', 'min:16', 'max:100'],
             'address' => ['required', 'string'],

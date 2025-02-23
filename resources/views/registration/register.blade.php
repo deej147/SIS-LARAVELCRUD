@@ -53,7 +53,11 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="email"
-                                        name="email" placeholder="Email Address" value="{{ old('email') }}" required>
+                                        name="email" placeholder="Email Address (@student.buksu.edu.ph or @buksu.edu.ph)" 
+                                        value="{{ old('email') }}" required
+                                        pattern="[a-zA-Z0-9._%+-]+@(student\.buksu\.edu\.ph|buksu\.edu\.ph)$"
+                                        title="Please use your BukSU email address (@student.buksu.edu.ph or @buksu.edu.ph)">
+                                    <small class="form-text text-muted">Use your official BukSU email address</small>
                                 </div>
                                 <div class="form-group">
                                     <input type="number" class="form-control form-control-user" id="age"
