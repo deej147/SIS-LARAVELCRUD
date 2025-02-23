@@ -32,8 +32,8 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin routes
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.adminDashboard');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.adminDashboard');
     Route::get('/students', [StudentController::class, 'index'])->name('students.index');
     Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
 });
