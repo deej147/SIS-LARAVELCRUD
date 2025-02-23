@@ -65,7 +65,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="enrolledSubjectsTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Code</th>
@@ -121,6 +121,10 @@
 @endpush
 
 @push('scripts')
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
     <!-- Page level plugins -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
@@ -128,11 +132,14 @@
     <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
-            $('#enrolledSubjectsTable').DataTable({
-                "order": [[0, "asc"]],
+            $('#dataTable').DataTable({
+                "ordering": true,
+                "info": true,
+                "searching": true,
+                "lengthChange": true,
                 "pageLength": 10,
                 "language": {
-                    "emptyTable": "You are not enrolled in any subjects"
+                    "emptyTable": "No subjects found"
                 }
             });
         });
