@@ -12,9 +12,12 @@ class UserFactory extends Factory
 
     public function definition(): array
     {
+        // Generate a student number: 220 + 7 random digits
+        $studentNumber = '220' . str_pad(fake()->unique()->numberBetween(0, 9999999), 7, '0', STR_PAD_LEFT);
+        
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->userName() . '@student.buksu.edu.ph',
+            'email' => $studentNumber . '@student.buksu.edu.ph',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
