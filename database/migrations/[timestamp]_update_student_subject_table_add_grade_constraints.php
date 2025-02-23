@@ -8,13 +8,13 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('student_subject', function (Blueprint $table) {
+        Schema::table('student_subjects', function (Blueprint $table) {
             // Modify the grade column to allow specific values only
             $table->string('grade')->nullable()->change();
             
             // Add a check constraint for valid grades
             DB::statement("
-                ALTER TABLE student_subject
+                ALTER TABLE student_subjects
                 ADD CONSTRAINT check_valid_grade
                 CHECK (
                     grade IS NULL 
@@ -30,9 +30,9 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::table('student_subject', function (Blueprint $table) {
+        Schema::table('student_subjects', function (Blueprint $table) {
             // Remove the check constraint
-            DB::statement("ALTER TABLE student_subject DROP CONSTRAINT check_valid_grade");
+            DB::statement("ALTER TABLE student_subjects DROP CONSTRAINT check_valid_grade");
         });
     }
 };

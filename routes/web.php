@@ -12,6 +12,15 @@ Route::get('/', function () {
     return view('registration.login');
 });
 
+// Guest routes (for registration and login)
+Route::middleware('guest')->group(function () {
+    Route::get('/register', function () {
+        return view('registration.register');
+    })->name('register');
+    
+    Route::post('/register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'store']);
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -25,11 +34,14 @@ Route::middleware('auth')->group(function () {
 // Admin routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.adminDashboard');
+    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+    Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
 });
 
 
 // Student routes
 Route::resource('students', StudentController::class);
+Route::delete('enrollments/{student}/{subject}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
     
 // Subject routes
 Route::resource('subjects', SubjectController::class);

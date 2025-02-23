@@ -4,9 +4,6 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Students Management</h1>
-        <a href="{{ route('students.create') }}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Add New Student
-        </a>
     </div>
 
     @if(session('success'))
@@ -18,10 +15,19 @@
         </div>
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Students List</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Registered Students</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -38,14 +44,11 @@
                     <tbody>
                         @foreach ($students as $student)
                             <tr>
-                                <td>{{ $student->name }}</td>
-                                <td>{{ $student->email }}</td>
+                                <td>{{ $student->user->name }}</td>
+                                <td>{{ $student->user->email }}</td>
                                 <td>{{ $student->age }}</td>
-                                <td>{{ $student->year_level }}st Year</td>  <!-- Changed from grade_level -->
+                                <td>{{ $student->year_level }}</td>
                                 <td>
-                                    <a href="{{ route('students.edit', $student) }}" class="btn btn-info btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
                                     <a href="{{ route('enroll.create', $student) }}" class="btn btn-success btn-sm">
                                         <i class="fas fa-user-plus"></i>
                                     </a>
@@ -55,7 +58,7 @@
                                     <form action="{{ route('students.destroy', $student) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this student?')">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this student? This will also delete their user account.')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>

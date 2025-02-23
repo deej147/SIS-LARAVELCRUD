@@ -46,7 +46,7 @@
                             <form class="user" method="POST" action="{{ route('register') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <div >
+                                    <div>
                                         <input type="text" class="form-control form-control-user" id="name"
                                             name="name" placeholder="Name" value="{{ old('name') }}" required autofocus>
                                     </div>
@@ -54,6 +54,18 @@
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="email"
                                         name="email" placeholder="Email Address" value="{{ old('email') }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control form-control-user" id="age"
+                                        name="age" placeholder="Age" value="{{ old('age') }}" required min="16" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="address"
+                                        name="address" placeholder="Address" value="{{ old('address') }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control form-control-user" id="year_level"
+                                        name="year_level" placeholder="Year Level" value="{{ old('year_level') }}" required min="1" max="6">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
