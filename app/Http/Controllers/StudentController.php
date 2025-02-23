@@ -27,10 +27,20 @@ class StudentController extends Controller
                 ->with('error', 'Cannot delete admin users.');
         }
 
+        // Prevent deletion of students with enrolled subjects
+        if ($student->subjects()->exists()) {
+            return redirect()->route('students.index')
+                ->with('error', 'Cannot delete student. Please unenroll from all subjects first.');
+        }
+
         // This will automatically delete the associated user due to cascade
-        $student->user->delete();
-        
-        return redirect()->route('students.index')
-            ->with('success', 'Student deleted successfully.');
+        try {
+            $student->delete();
+            return redirect()->route('students.index')
+                ->with('success', 'Student deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('students.index')
+                ->with('error', 'An error occurred while deleting the student.');
+        }
     }
 }

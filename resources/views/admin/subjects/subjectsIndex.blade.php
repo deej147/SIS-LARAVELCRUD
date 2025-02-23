@@ -1,6 +1,8 @@
 @extends('layouts.adminTemplate')
 
 @section('adminContent')
+    @include('components.delete-confirmation-modal', ['item' => 'subject'])
+
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Subjects</h1>
@@ -47,12 +49,27 @@
                                         <a href="{{ route('subjects.edit', $subject) }}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
-                                        <form action="{{ route('subjects.destroy', $subject) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('subjects.destroy', $subject) }}" method="POST" class="d-inline delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this subject?')">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
+                                            @if($subject->students()->exists())
+                                                <button type="button" 
+                                                        class="btn btn-danger btn-sm" 
+                                                        disabled 
+                                                        data-toggle="tooltip" 
+                                                        data-placement="top" 
+                                                        title="Cannot delete subject with enrolled students">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            @else
+                                                <button type="button" 
+                                                        class="btn btn-danger btn-sm delete-btn" 
+                                                        data-toggle="modal" 
+                                                        data-target="#deleteConfirmationModal"
+                                                        data-form-id="{{ $subject->id }}">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            @endif
                                         </form>
                                     </div>
                                 </td>
@@ -79,6 +96,38 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable();
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <!-- Add the delete confirmation handling script -->
+    <script>
+        $(document).ready(function() {
+            // Store the form that triggered the modal
+            let formToSubmit = null;
+
+            // When delete button is clicked, store the associated form
+            $('.delete-btn').on('click', function() {
+                formToSubmit = $(this).closest('form');
+            });
+
+            // When confirm delete button in modal is clicked
+            $('#confirmDeleteButton').on('click', function() {
+                if (formToSubmit) {
+                    formToSubmit.submit(); // Submit the stored form
+                }
+                $('#deleteConfirmationModal').modal('hide');
+            });
+
+            // When modal is hidden, clear the stored form
+            $('#deleteConfirmationModal').on('hidden.bs.modal', function() {
+                formToSubmit = null;
+            });
         });
     </script>
 @endpush

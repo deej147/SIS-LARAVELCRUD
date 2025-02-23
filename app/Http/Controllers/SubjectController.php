@@ -95,8 +95,19 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        $subject->delete();
-        return redirect()->route('subjects.index')
-            ->with('success', 'Subject deleted successfully.');
+        // Check if any students are enrolled in this subject
+        if ($subject->students()->exists()) {
+            return redirect()->route('subjects.index')
+                ->with('error', 'Cannot delete subject. There are students currently enrolled in this subject.');
+        }
+
+        try {
+            $subject->delete();
+            return redirect()->route('subjects.index')
+                ->with('success', 'Subject deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('subjects.index')
+                ->with('error', 'Failed to delete subject. Please try again.');
+        }
     }
 }
