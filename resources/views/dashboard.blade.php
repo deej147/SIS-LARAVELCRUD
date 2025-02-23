@@ -121,10 +121,6 @@
 @endpush
 
 @push('scripts')
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <!-- Page level plugins -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
@@ -132,16 +128,7 @@
     <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable({
-                "ordering": true,
-                "info": true,
-                "searching": true,
-                "lengthChange": true,
-                "pageLength": 10,
-                "language": {
-                    "emptyTable": "No subjects found"
-                }
-            });
+            $('#dataTable').DataTable();
         });
     </script>
 @endpush
